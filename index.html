@@ -1,0 +1,193 @@
+<html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senhas Seguras - Steampunk Edition</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            /* Fundo escuro metalizado */
+            background-color: #1a1512;
+            background-image: radial-gradient(circle, #2c1f18 10%, #110b08 90%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #e0d0c0;
+        }
+        .container {
+            /* Caixa imitando placa de cobre/latão */
+            background-color: #2b1e16;
+            padding: 30px;
+            border-radius: 4px;
+            border: 4px solid #d97736; /* Laranja acobreado */
+            box-shadow: 0 0 20px rgba(217, 119, 54, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+        /* Detalhe estético imitando rebites ou parafusos steampunk */
+        .container::before {
+            content: "• •          • •";
+            font-size: 20px;
+            color: #d97736;
+            letter-spacing: 120px;
+            position: absolute;
+            top: 5px;
+            left: 25px;
+            opacity: 0.5;
+        }
+        h1 {
+            color: #00f2ff; /* Ciano Neon/Elétrico */
+            font-size: 26px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.6);
+            border-bottom: 2px dashed #d97736;
+            padding-bottom: 10px;
+        }
+        .password-display {
+            /* Visor analógico/válvula antiga */
+            background-color: #0f191a;
+            border: 2px solid #00f2ff;
+            color: #00f2ff;
+            padding: 15px;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            word-break: break-all;
+            min-height: 24px;
+            box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.5), 0 0 10px rgba(0, 242, 255, 0.2);
+            text-shadow: 0 0 5px rgba(0, 242, 255, 0.8);
+        }
+        .controls {
+            margin-bottom: 25px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #d97736;
+        }
+        .control-group {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        label {
+            color: #e0d0c0;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 6px;
+            background-color: #1a1512;
+            border: 2px solid #d97736;
+            color: #00f2ff;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            text-align: center;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #00f2ff;
+        }
+        /* Estilização básica dos checkboxes para combinar */
+        input[type="checkbox"] {
+            accent-color: #00f2ff;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+        button {
+            width: 100%;
+            background-color: #d97736; /* Botão de Bronze/Cobre */
+            color: #1a1512;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid #ff9d5c;
+            padding: 14px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #944616;
+        }
+        button:hover {
+            background-color: #e68545;
+            color: #000;
+            box-shadow: 0 4px 0 #944616, 0 0 10px rgba(217, 119, 54, 0.5);
+        }
+        button:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Gerador de Senhas</h1>
+    
+    <div class="password-display" id="passwordResult">Clique em Gerar</div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="length">Qtd. de caracteres:</label>
+            <input type="number" id="length" min="6" max="30" value="12">
+        </div>
+        <div class="control-group">
+            <label for="includeUppercase">Incluir Maiúsculas</label>
+            <input type="checkbox" id="includeUppercase" checked="">
+        </div>
+        <div class="control-group">
+            <label for="includeNumbers">Incluir Números</label>
+            <input type="checkbox" id="includeNumbers" checked="">
+        </div>
+        <div class="control-group">
+            <label for="includeSymbols">Incluir Símbolos</label>
+            <input type="checkbox" id="includeSymbols" checked="">
+        </div>
+    </div>
+    
+    <button onclick="generatePassword()">Gerar Senha</button>
+</div>
+
+<script>
+    function generatePassword() {
+        const length = document.getElementById('length').value;
+        const includeUppercase = document.getElementById('includeUppercase').checked;
+        const includeNumbers = document.getElementById('includeNumbers').checked;
+        const includeSymbols = document.getElementById('includeSymbols').checked;
+
+        const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+        const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numberChars = '0123456789';
+        const symbolChars = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+
+        let allowedChars = lowercaseChars;
+        if (includeUppercase) allowedChars += uppercaseChars;
+        if (includeNumbers) allowedChars += numberChars;
+        if (includeSymbols) allowedChars += symbolChars;
+
+        let password = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * allowedChars.length);
+            password += allowedChars[randomIndex];
+        }
+
+        document.getElementById('passwordResult').innerText = password;
+    }
+</script>
+
+</body></html>
